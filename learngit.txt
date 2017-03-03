@@ -1,0 +1,113 @@
+献给	写作者的markdown 新手指南
+
+mkdir test //创建文件夹 test
+cd test  //切换到test目录
+touch a.md //新建a.md文件
+git status	
+git init	
+git add	 //使得git 能跟踪
+git commit
+git log
+git branch
+git checkout a  //切换的到分支 a
+git checkout -b a //新建分支a并切换到a
+git merge  //合并分支 
+(NO1step. git checkout master//切换到主分支
+No2step. git merge a //把分支a合并到主分支)
+git branch -d  //删除分支 例如：git branch a //删除分支 a
+git branch -D  //强删
+git tag		//做标签 
+(git tag v1.0 
+git checkout v1.0)
+git diff //查看之前的改动
+cat a.md //查看 a.md 的改动 cat 查看文件改动
+
+!!!向github提交代码
+
+
+github提交代码基于SSH
+生成SSH key
+Linux 和 Mac 默认安装SSH ，windows 中安装了Git Bash就有ssh
+
+ssh //显示是否有ssh
+ssh-keygen -t rsa //会生成两个文件,id_rsa,id_rsa.pub ,前者为密钥,后者为公钥 //这两个文件是隐藏文件 XXX/.ssh目录下
+//将公钥添加至github中即可
+ssh -T git@github.com
+
+//push 和 pull 注意先push后pull
+git push origin master //把本地代码推到远程master分支
+git pull origin master
+
+//提交代码的两种方法
+
+//clone自己的项目
+git clone git@github.com:CFIcode/Test.git //这边是项目地址
+//方法2
+git remote add origin git@github.com:CFIcode/Test.git
+
+git remote -v // 查看当前项目有哪些远程仓库
+
+//提交代码之前先设置自己的用户名与邮箱,这些信息会出现在所用的commit记录里,执行以下代码就可以设置：
+git config -global user.name "CFIcode"
+git config -global user.email "cficode@163.com"
+------------------------------------------------------------------------------
+git 进阶：
+
+
+alias //别名
+
+git commit //git c
+git checkout //git co
+git branch //git br
+git status //git s
+....
+以上需要配置,输入以下命令：(完全可以按照自己的习惯去订制)
+git config --global alias.co checkout #别名
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.br branch
+
+//组合亦可以
+git config --global alias.psm 'push origin master'
+git config --global alias.plm 'pull origin master'
+
+另外一个很强大的命令：  用于 git log 显示
+输入： git log --graph --pretty=format:'%Cred%h%Creset-%C(yellow)%d%Creset%s %Cgreen(%cr)%C(bold blue)<%an>%Creset'--abbrev-commit --date=relative 
+
+同样想到alias一下：
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset-%C(yellow)%d%Creset%s %Cgreen(%cr)%C(bold blue)<%an>%Creset'--abbrev-commit --date=relative"
+
+其他配置
+
+git config --global core.editor "vim"//git 默认编辑器是vi,这边变成vim。如果喜欢其他编辑器可自行搜索配置，前提是本机有装
+
+git config --global color.ui true//开启git着色
+git config --global core.quotepath false //设置显示中文文件名
+
+默认以上配置都在~/.gitconfig文件下的,你可以找到文件查看自己的配置,也可以输入 git config -l
+
+git diff //查看之前的改动
+红色部分前面有个-表示我删除的，绿色前面 + 代表我增加的
+直接输入git diff只能比较当前文件和暂存区文件差异 //什么是暂存区?就是你还没执行git add的文件
+此外, 还可以
+git diff <$id1><$id2> //比较两次提交之间的差异
+git diff <branch1>..<branch2> //在两个分支之间比较
+git diff --staged //比较暂存区和版本库之间的差异
+
+checkout作用详解：
+1. git checkout a //切换到分支 a (checkout 一般做切换分支用)
+2. git checkout v1.0 //切换tag
+3. git checkout ffsd2ljjada3232ljasda //后面一长串是commit_id (SHA1值) ,git log可以看到
+4. git checkout a.md //撤销作用 ,针对还没 git add 进暂存区(!!!),这个操作就是 直接把原文件还原
+---------------------------------------------
+git stash // 把当前分支所有未commit的代码先暂存起来(针对还未commit ,就算执行add也没关系)
+git stash list //查看暂存区记录
+git stash apply //还原之前的代码
+git stash drop //删除暂存区stash记录,drop后面可以跟stash_id参数来删除指定的某条记录
+git stash pop //还原代码+自动删除该条stash记录
+git stash clear //清空所用暂存区记录
+
+next step: 7 merge & rebase
+updating ...
+
+
